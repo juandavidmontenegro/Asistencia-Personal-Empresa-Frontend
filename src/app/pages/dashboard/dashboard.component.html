@@ -1,25 +1,42 @@
 @if (shouldRun) {
     <div class="flex flex-col absolute inset-0 " [class.example-is-mobile]="mobileQuery.matches">
-      <mat-toolbar>
-        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-        <h1 class="example-app-name">Software Attendets</h1>
+      <mat-toolbar>   
+        <button mat-icon-button (click)="snav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-toolbar class="flex-1 justify-center items-center border-b-4 border-emerald-800">
+          <h1 class="text-2xl font-bold text-emerald-800 ">Attendets</h1>
+          <div  class="flex flex-1 justify-end items-center">
+            <img src="/assets/logo_asistencias.png" alt="" class="w-14 h-14 rounded-full">
+            @if (authService.authStatus() ==='authenticated') {
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                height="24px" 
+                viewBox="0 -960 960 960" 
+                width="24px" fill="#1f1f1f">
+                <path d="M480-345 240-585l56-56 184 183 184-183 56 56-240 240Z"/></svg>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <span>{{authService.user()?.email}}</span>
+                </button>
+                <button mat-menu-item>
+                  <span>{{authService.user()?.role}}</span>
+                </button>
+                <button mat-menu-item  [routerLink]="['/login']" (click)="authService.logout()">
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span >Cerrar Session</span>
+                </button>
+              </mat-menu>
+            }
+           </div>
+        </mat-toolbar>
+        <!-- <h1 class="example-app-name">Software Attendets</h1> -->
       </mat-toolbar>
       <mat-sidenav-container class="flex-[1_0_auto]"
                             [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                     [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-                    <div  class="my-4 px-6 flex flex-col justify-center items-center">
-                      <img src="/assets/logo_asistencias.png" alt="" class="w-28 h-28 rounded-full">
-                      @if (authService.authStatus() ==='authenticated') {
-                         
-                          <p class="text-slate-800 font-bold text-sm">{{authService.user()?.role}}</p>
-                      }
-                      @if (authService.authStatus()==='authenticated') {
-                        <span class=" md:text-base font-bold text-black">
-                            {{authService.user()?.email}}
-                        </span>
-                    }
-                     </div>
           <mat-nav-list>
             <app-nav ></app-nav>
           </mat-nav-list>

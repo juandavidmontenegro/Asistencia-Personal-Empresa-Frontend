@@ -5,17 +5,17 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { NavComponent } from "../nav/nav.component";
 import { AuthService } from '../../auth/auth-services/auth.service';
-
-
-const materialModules = [MatSidenavModule ,MatButtonModule, MatToolbarModule, MatIconModule, MatListModule];
-
+import {MatSelectModule} from '@angular/material/select';
+import {MatMenuModule} from '@angular/material/menu';
+const materialModules = [MatSidenavModule ,MatButtonModule, MatToolbarModule,MatButtonModule,MatMenuModule,
+   MatIconModule, MatListModule , MatToolbarModule , MatSelectModule];
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [materialModules, NavComponent, RouterOutlet],
+  imports: [materialModules, NavComponent, RouterOutlet , RouterLink],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnDestroy {
