@@ -1,0 +1,16 @@
+@use'@angular/material' as mat;
+@use'./themem3-theme.scss';
+
+
+@include mat.core();
+
+html{
+    @include mat.all-component-themes(themem3-theme.$light-theme);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+

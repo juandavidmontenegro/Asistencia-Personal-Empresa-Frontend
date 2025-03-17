@@ -1,0 +1,58 @@
+<form [formGroup]="loginForm" 
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col justify-center items-center gap-2 border-gray-200 p-4 rounded-lg">
+   
+   <mat-form-field class="w-full">
+    <mat-label>Email</mat-label>
+    <input matInput 
+           formControlName="email"
+           placeholder="nombre@induaceitera.com"
+           type="email">
+    <mat-error *ngIf="emailField?.errors?.['required']">
+      El email es requerido
+    </mat-error>
+    <mat-error *ngIf="emailField?.errors?.['email']">
+      Ingrese un email válido
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Contraseña</mat-label>
+    <input matInput 
+           formControlName="password"
+           type="password" 
+           placeholder="Contraseña">
+    <mat-error *ngIf="passwordField?.errors?.['required']">
+      La contraseña es requerida
+    </mat-error>
+    <mat-error *ngIf="passwordField?.errors?.['minlength']">
+      La contraseña debe tener al menos 8 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Mensaje de error general -->
+
+  <button mat-stroked-button  
+          class="w-full" 
+          type="submit"
+          [disabled]="loginForm.invalid || isLoading()">
+    <span *ngIf="!isLoading()">Ingresar</span>
+    <span *ngIf="isLoading()">Cargando...</span>
+  </button>
+</form>
+@if( hasError()){
+  <div role="alert" class="alert alert-error animate-bounce fixed bottom-5 -translate-y-1/2  -translate-x-1/2  w-48  ">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-8 w-8 shrink-0 stroke-current"
+      fill="none"
+      viewBox="0 0 24 24">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span class="text-2xl text-red-700 font-bold">Error! contraseña o email invalido</span>
+  </div>
+}

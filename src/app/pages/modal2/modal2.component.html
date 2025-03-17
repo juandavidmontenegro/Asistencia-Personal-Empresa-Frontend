@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Registro de Boleta</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="flex flex-col gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Cédula</mat-label>
+      <input matInput formControlName="cedula" placeholder="Ingrese su cédula">
+      <mat-error *ngIf="form.get('cedula')?.hasError('required')">
+        La cédula es requerida
+      </mat-error>
+      <mat-error *ngIf="form.get('cedula')?.hasError('minlength')">
+        La cédula debe tener al menos 8 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de Boleta</mat-label>
+      <mat-select formControlName="boleta">
+        <mat-option *ngFor="let tipo of boleta" [value]="tipo.value">
+          {{tipo.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tipoBoleta')?.hasError('required')">
+        Debe seleccionar un tipo de boleta
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!form.valid">
+    Guardar
+  </button>
+</mat-dialog-actions>

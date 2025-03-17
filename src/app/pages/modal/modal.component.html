@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Registro de Ingreso</h2>
+<mat-dialog-content>
+    <form [formGroup]="form">
+        <mat-form-field class="w-full">
+            <mat-label>Cédula</mat-label>
+            <input matInput formControlName="cedula" placeholder="Ingrese su cédula">
+            <mat-error *ngIf="form.get('cedula')?.hasError('required')">
+                La cédula es requerida
+            </mat-error>
+            <mat-error *ngIf="form.get('cedula')?.hasError('minlength')">
+                La cédula debe tener al menos 8 caracteres
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="!form.valid">
+        Guardar
+    </button>
+</mat-dialog-actions>
