@@ -27,9 +27,8 @@ export class HomeComponent {
 
   dataSourcesfg: TableOption[] = [
     { value: 'asistencias', viewValue: 'Registro de Asistencia' },
-    { value: 'permisos', viewValue: 'Registro Empleado' }
   ];
-  
+
   exportForm: FormGroup;
   
   constructor(private fb: FormBuilder) {
