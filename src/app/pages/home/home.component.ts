@@ -26,24 +26,17 @@ interface TableOption {
 export class HomeComponent {
 
   dataSourcesfg: TableOption[] = [
-    { value: 'empleados', viewValue: 'Tabla de Empleados' },
-    { value: 'asistencias', viewValue: 'Registro de Asistencias' },
-    { value: 'permisos', viewValue: 'Registro de Permisos' },
-    { value: 'visitantes', viewValue: 'Registro de Visitantes' }
+    { value: 'asistencias', viewValue: 'Registro de Asistencia' },
+    { value: 'permisos', viewValue: 'Registro Empleado' }
   ];
-
-
-
+  
   exportForm: FormGroup;
   
   constructor(private fb: FormBuilder) {
     this.exportForm = this.fb.group({
       dataSource: ["", Validators.required],
-      startDate: ["", Validators.required],
-      endDate: ["", Validators.required],
-      fileName: ["", [Validators.required, Validators.pattern("^[a-zA-Z0-9]*$")]],
-      format: ["xlsx"],
-    }, { validator: this.dateRangeValidator });
+    
+    });
   }
 
   ngOnInit(): void {
@@ -51,13 +44,6 @@ export class HomeComponent {
     });
   }
 
-  dateRangeValidator(group: FormGroup) {
-    const start = group.get("startDate")?.value;
-    const end = group.get("endDate")?.value;
-    if (start && end && new Date(start) > new Date(end)) {
-      return { dateRange: true };
-    }
-    return null;
-  }
+  
 
 }
