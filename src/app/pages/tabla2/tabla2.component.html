@@ -3,7 +3,7 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
   
-  <div class="shadow-md overflow-x-auto">
+  <div class="shadow-md overflow-x-auto biorder">
     <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="cedula">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Cedula</th>
