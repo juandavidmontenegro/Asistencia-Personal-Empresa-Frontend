@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DialogService } from '../../service/ingresos.service';
 import { Dato, Empresas } from '../../interface/totalempresa';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { startWith } from 'rxjs';
 
 
 
@@ -22,8 +23,8 @@ interface TableOption {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule , ReactiveFormsModule ,MatFormFieldModule, MatInputModule,MatDatepickerModule, MatButtonModule, MatNativeDateModule, 
-  MatSelectModule , MatProgressSpinnerModule],
+  imports: [CommonModule , ReactiveFormsModule ,MatFormFieldModule, MatInputModule,MatDatepickerModule, MatButtonModule, MatNativeDateModule,
+MatSelectModule , MatProgressSpinnerModule],
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
@@ -50,13 +51,20 @@ export class HomeComponent {
   ngOnInit(): void {
     this.empresas();
     this.exportForm.valueChanges.subscribe(() => {
+      
     });
   }
 
 
   empresas(): void{
 
-    this.dialogService.obtenerEmpresa().subscribe({
+    this.loading = true;
+    this.error = null;
+    this.dialogService.obtenerEmpresa().pipe(
+      startWith({ message: '', datos: [] as Dato[] })
+    )
+     .subscribe({
+  
       next :(responde : Empresas) =>{
         if (responde && responde.datos) {
           this.empresasTotales = responde.datos;

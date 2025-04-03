@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, startWith, switchMap, throwError } from 'rxjs';
 import { enviroment } from '../../enviroments/dev.enviroment';
 import { IngresoPersonal } from '../interface/ingreso.interface';
 import { ErrorIngreso } from '../interface/errores-ingreso.interface';
