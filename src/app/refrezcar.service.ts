@@ -6,7 +6,7 @@ import { switchMap, shareReplay } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RealTimeService {
-  private readonly POLLING_INTERVAL = 3000; // 3 segundos
+  private readonly POLLING_INTERVAL = 2000; // 2 segundos
   private dataSubject = new BehaviorSubject<any[]>([]);
   public data$ = this.dataSubject.asObservable();
 
