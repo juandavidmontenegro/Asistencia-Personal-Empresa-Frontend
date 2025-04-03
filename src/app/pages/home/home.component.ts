@@ -60,7 +60,6 @@ export class HomeComponent {
       next :(responde : Empresas) =>{
         if (responde && responde.datos) {
           this.empresasTotales = responde.datos;
-          console.log('empresas cargadas' , this.empresasTotales);
         }
         this.loading = false;
       },
