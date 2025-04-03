@@ -7,7 +7,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { TotalPerson } from '../../interface/attentends.interface';
+import { DialogService } from '../../service/ingresos.service';
+import { Dato, Empresas } from '../../interface/totalempresa';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 
 interface TableOption {
   value: string;
@@ -18,12 +22,17 @@ interface TableOption {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule , ReactiveFormsModule 
-  , MatFormFieldModule, MatInputModule, 
-    MatDatepickerModule, MatButtonModule , MatNativeDateModule , MatSelectModule],
+  imports: [CommonModule , ReactiveFormsModule ,MatFormFieldModule, MatInputModule,MatDatepickerModule, MatButtonModule, MatNativeDateModule, 
+  MatSelectModule , MatProgressSpinnerModule],
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
+
+  empresasTotales: Dato[] = [];
+  loading = false;
+  error: string | null = null;
+
+
 
   dataSourcesfg: TableOption[] = [
     { value: 'asistencias', viewValue: 'Registro de Asistencia' },
@@ -31,7 +40,7 @@ export class HomeComponent {
 
   exportForm: FormGroup;
   
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder , private readonly dialogService : DialogService) {
     this.exportForm = this.fb.group({
       dataSource: ["", Validators.required],
     
@@ -39,10 +48,32 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
+    this.empresas();
     this.exportForm.valueChanges.subscribe(() => {
     });
   }
 
+
+  empresas(): void{
+
+    this.dialogService.obtenerEmpresa().subscribe({
+      next :(responde : Empresas) =>{
+        if (responde && responde.datos) {
+          this.empresasTotales = responde.datos;
+          console.log('empresas cargadas' , this.empresasTotales);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = error.message;
+        this.loading = false;
+      }
+    })
+    
+
+
+
+  }
   
 
 }

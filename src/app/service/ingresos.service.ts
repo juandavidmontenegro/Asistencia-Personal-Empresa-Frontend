@@ -9,6 +9,7 @@ import { ErrorIngreso } from '../interface/errores-ingreso.interface';
 import { SalidaPersonal } from '../interface/exit.interface';
 import { TotalPerson } from '../interface/attentends.interface';
 import { EmpleadosRegistrados } from '../interface/empleados.interface';
+import { Empresas } from '../interface/totalempresa';
 
 
 
@@ -141,6 +142,16 @@ export class DialogService {
           throw error;
         })
       );
+    }
+
+    obtenerEmpresa(){
+      return this.http.get<Empresas>(`${apiUrl}/register/empresa`).pipe(
+        catchError(error => {
+          console.error('Error obteniendo el numero de empresa:', error);
+          throw error;
+        })
+      
+      )
     }
 
 }
