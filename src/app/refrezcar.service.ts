@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, timer } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, timer } from 'rxjs';
+import { switchMap, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RefreshService {
-  private readonly REFRESH_INTERVAL = 5000;
-  private refreshSubject = new BehaviorSubject<boolean>(true);
-  refresh$ = this.refreshSubject.asObservable();
+export class RealTimeService {
+  private readonly POLLING_INTERVAL = 3000; // 3 segundos
+  private dataSubject = new BehaviorSubject<any[]>([]);
+  public data$ = this.dataSubject.asObservable();
 
-  startAutoRefresh() {
-    return timer(0, this.REFRESH_INTERVAL);
-  }
-
-  forceRefresh() {
-    this.refreshSubject.next(true);
+  startRealTimeUpdates<T>(apiCall: () => Observable<T>): Observable<T> {
+    return timer(0, this.POLLING_INTERVAL).pipe(
+      switchMap(() => apiCall()),
+      shareReplay(1)
+    );
   }
 }

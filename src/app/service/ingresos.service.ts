@@ -10,6 +10,7 @@ import { SalidaPersonal } from '../interface/exit.interface';
 import { TotalPerson } from '../interface/attentends.interface';
 import { EmpleadosRegistrados } from '../interface/empleados.interface';
 import { Empresas } from '../interface/totalempresa';
+import { RealTimeService } from './../refrezcar.service';
 
 
 
@@ -23,7 +24,8 @@ const apiUrl = enviroment.UrlApi;
 export class DialogService {
     constructor(
         private dialog: MatDialog,
-        private http: HttpClient
+        private http: HttpClient,
+        private realTimeService : RealTimeService
     ) {}
     closeAll(): void {
         this.dialog.closeAll();
@@ -117,13 +119,15 @@ export class DialogService {
 
     getUsers(page: number = 1, limit: number = 5): Observable<TotalPerson> {
       const params = new HttpParams().set('page', page).set('limit', limit);
-  
-      return this.http.get<TotalPerson>( `${apiUrl}/register` , { params }).pipe(
-        catchError(error => {
-          console.error('Error obteniendo usuarios:', error);
-          throw error;
-        })
-      );
+
+      return this.realTimeService.startRealTimeUpdates<TotalPerson>(() => {
+        return this.http.get<TotalPerson>(`${apiUrl}/register`, { params }).pipe(
+          catchError(error => {
+            console.error('Error obteniendo usuarios:', error);
+            throw error;
+          })
+        );
+      });
     }
 
     deleteUser(id: string) {
@@ -136,12 +140,20 @@ export class DialogService {
     }
 
     getTotales(){
-      return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register/empleados`).pipe(
-        catchError(error => {
-          console.error('Error obteniendo totales:', error);
-          throw error;
-        })
-      );
+      return this.realTimeService.startRealTimeUpdates(() => {
+        return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register/empleados`).pipe(
+          catchError(error => {
+            console.error('Error obteniendo totales:', error);
+            throw error;
+          })
+        );
+      });
+      // return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register/empleados`).pipe(
+      //   catchError(error => {
+      //     console.error('Error obteniendo totales:', error);
+      //     throw error;
+      //   })
+      // );
     }
 
     obtenerEmpresa(){
