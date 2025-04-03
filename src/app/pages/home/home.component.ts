@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { DialogService } from '../../service/ingresos.service';
 import { Dato, Empresas } from '../../interface/totalempresa';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { startWith, Subscription, switchMap, timer } from 'rxjs';
 
 
 
@@ -23,7 +22,7 @@ interface TableOption {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule , ReactiveFormsModule ,MatFormFieldModule, MatInputModule,MatDatepickerModule, MatButtonModule, MatNativeDateModule,
+  imports: [CommonModule , ReactiveFormsModule ,MatFormFieldModule, MatInputModule,MatDatepickerModule, MatButtonModule, MatNativeDateModule, 
 MatSelectModule , MatProgressSpinnerModule],
   templateUrl: './home.component.html'
 })
@@ -48,22 +47,20 @@ export class HomeComponent {
     });
   }
 
-  private refreshSubscription?: Subscription;
-  private readonly REFRESH_INTERVAL = 3000; 
   ngOnInit(): void {
     this.empresas();
     this.exportForm.valueChanges.subscribe(() => {
-
     });
   }
 
 
   empresas(): void{
 
-    this.refreshSubscription = timer(0, this.REFRESH_INTERVAL).pipe(
-      switchMap(() => this.dialogService.obtenerEmpresa())
-    ).subscribe({
-      next: (responde: Empresas) => {
+    this.loading = true;
+    this.error = null;
+    this.dialogService.obtenerEmpresa(). subscribe({
+  
+      next :(responde : Empresas) =>{
         if (responde && responde.datos) {
           this.empresasTotales = responde.datos;
         }
@@ -73,15 +70,12 @@ export class HomeComponent {
         this.error = error.message;
         this.loading = false;
       }
-    });
-  }
+    })
+    
 
-  ngOnDestroy(): void {
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
-    }
-  }
 
+
+  }
   
 
 }

@@ -49,7 +49,7 @@ export class TablaComponent implements AfterViewInit, OnInit {
           ...usuario,
           fechaEntrada: usuario.ingreso[0].fechaEntrada,
           horaEntrada: usuario.ingreso[0].horaEntrada ,
-          fechaSalida: usuario.salidas[0].fechaSalida ,
+          fechaSalida: usuario.salidas[0].fechaSalida,
           horaSalida: usuario.salidas[0].horaSalida,
           tipoSalida: usuario.salidas[0].tipo_de_salida 
         }));

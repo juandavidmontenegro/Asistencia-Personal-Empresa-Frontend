@@ -116,7 +116,6 @@ export class DialogService {
             catchError(this.handleError)
         );
     }
-
     getUsers(page: number = 1, limit: number = 5): Observable<TotalPerson> {
       const params = new HttpParams().set('page', page).set('limit', limit);
 
@@ -148,22 +147,17 @@ export class DialogService {
           })
         );
       });
-      // return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register/empleados`).pipe(
-      //   catchError(error => {
-      //     console.error('Error obteniendo totales:', error);
-      //     throw error;
-      //   })
-      // );
     }
 
     obtenerEmpresa(){
-      return this.http.get<Empresas>(`${apiUrl}/register/empresa`).pipe(
-        catchError(error => {
-          console.error('Error obteniendo el numero de empresa:', error);
-          throw error;
-        })
-      
-      )
+      return this.realTimeService.startRealTimeUpdates(() => {
+        return this.http.get<Empresas>(`${apiUrl}/register/empresa`).pipe(
+            catchError(error => {
+              console.error('Error obteniendo el numero de empresa:', error);
+              throw error;
+            })
+          )
+      })
     }
 
 }
