@@ -10,8 +10,11 @@ import { NavComponent } from "../nav/nav.component";
 import { AuthService } from '../../auth/auth-services/auth.service';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
+
+
 const materialModules = [MatSidenavModule ,MatButtonModule, MatToolbarModule,MatButtonModule,MatMenuModule,
    MatIconModule, MatListModule , MatToolbarModule , MatSelectModule];
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -21,6 +24,7 @@ const materialModules = [MatSidenavModule ,MatButtonModule, MatToolbarModule,Mat
 export class DashboardComponent implements OnDestroy {
   shouldRun: boolean = true;
   mobileQuery: MediaQueryList;
+  isMenuOpen: boolean = true;
   
   
 
@@ -41,7 +45,6 @@ export class DashboardComponent implements OnDestroy {
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
-//////
 
 
 
