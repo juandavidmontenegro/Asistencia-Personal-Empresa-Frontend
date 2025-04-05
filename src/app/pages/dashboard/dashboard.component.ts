@@ -39,4 +39,3 @@ export class DashboardComponent implements OnDestroy {
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 }
-
