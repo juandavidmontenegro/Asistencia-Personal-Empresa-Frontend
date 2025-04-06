@@ -94,7 +94,7 @@ export class DialogService {
 
         return throwError(() => new Error(errorMessage));
     }
-    private salidapersonal(salida: SalidaPersonal): Observable<SalidaPersonal> {
+     salidapersonal(salida: SalidaPersonal): Observable<SalidaPersonal> {
         return this.http.post<SalidaPersonal>(`${apiUrl}/register/salida`,
             salida, {
                 headers: new HttpHeaders({
@@ -105,7 +105,7 @@ export class DialogService {
             catchError(this.handleError)
         );
     }
-    private registerIngreso(ingresar: IngresoPersonal): Observable<IngresoPersonal> {
+     registerIngreso(ingresar: IngresoPersonal): Observable<IngresoPersonal> {
         return this.http.post<IngresoPersonal>(`${apiUrl}/register/ingreso`,
             ingresar, {
                 headers: new HttpHeaders({

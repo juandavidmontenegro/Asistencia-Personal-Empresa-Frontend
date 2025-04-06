@@ -16,12 +16,19 @@
       <mat-label>Tipo de Boleta</mat-label>
       <mat-select formControlName="boleta">
         <mat-option *ngFor="let tipo of boleta" [value]="tipo.value">
-          {{tipo.viewValue}}
+          {{tipo.viewValue}}   
         </mat-option>
       </mat-select>
       <mat-error *ngIf="form.get('tipoBoleta')?.hasError('required')">
         Debe seleccionar un tipo de boleta
       </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="form.get('boleta')?.value === 'cita medica'">
+      <mat-label>Digite Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaboleta">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </form>
 </mat-dialog-content>

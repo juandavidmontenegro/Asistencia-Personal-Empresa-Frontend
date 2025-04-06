@@ -4,11 +4,14 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './auth/auth-interceptor/auth.interceptor';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(),
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
+     provideAnimationsAsync(),
     provideHttpClient( withFetch(),withInterceptors([
       authInterceptor
     ]))
+    , provideNativeDateAdapter()
   ]
 };

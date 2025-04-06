@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-tabla',
   standalone: true,
   imports: [CommonModule, FormsModule , 
-    MatPaginatorModule, MatSortModule, 
+  MatPaginatorModule, MatSortModule, 
     MatTableModule, MatInputModule, 
     MatFormFieldModule , MatIconModule],
   templateUrl: './tabla.component.html',
@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class TablaComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['cedula', 'Nombre Completo', 'Fecha Entrada', 'Hora Entrada',
-    'Fecha Salida', 'Hora Salida' , 'tipo de Salida' , 'Acciones'];
+    'Fecha Salida', 'Hora Salida' , 'tipo de Salida' ,'fecha boleta', 'Acciones'];
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>([]);
   loading = false;
   
@@ -51,7 +51,9 @@ export class TablaComponent implements AfterViewInit, OnInit {
           horaEntrada: usuario.ingreso[0].horaEntrada ,
           fechaSalida: usuario.salidas[0].fechaSalida,
           horaSalida: usuario.salidas[0].horaSalida,
-          tipoSalida: usuario.salidas[0].tipo_de_salida 
+          tipoSalida: usuario.salidas[0].tipo_de_salida,
+          fechaboleta : usuario.salidas[0].fechaboleta
+          
         }));
         // mostrar todos los registros de entrada y salida
         usuarios.forEach(usuario => {
@@ -61,7 +63,8 @@ export class TablaComponent implements AfterViewInit, OnInit {
                 ...usuario,
                 fechaSalida: salida.fechaSalida,
                 horaSalida: salida.horaSalida,
-                tipoSalida: salida.tipo_de_salida
+                tipoSalida: salida.tipo_de_salida,
+                fechaboleta : salida.fechaboleta
               });
             });
           }

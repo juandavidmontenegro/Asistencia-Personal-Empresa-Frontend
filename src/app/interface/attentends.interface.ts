@@ -21,6 +21,7 @@ export interface Usuario {
 export interface Ingreso {
     fechaEntrada: Date;
     horaEntrada:  string;
+    observacion:  null | string;
     estado:       string;
 }
 
@@ -28,4 +29,5 @@ export interface Salida {
     fechaSalida:    Date;
     horaSalida:     string;
     tipo_de_salida: string;
+    fechaboleta:    Date | null;
 }
