@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Registro de Ingreso</h2>
 <mat-dialog-content>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field class="w-full">
             <mat-label>Cédula</mat-label>
             <input matInput formControlName="cedula" placeholder="Ingrese su cédula">
@@ -14,27 +14,21 @@
                 La cédula debe contener solo números
             </mat-error>
         </mat-form-field>
+    
         
         <mat-form-field *ngIf="mostrarObservacion"  class="w-full">
             <mat-label>Observación</mat-label>
-            <textarea matInput formControlName="observacion" placeholder="Ingrese la observación de la cita médica"></textarea>
-            <mat-error *ngIf="form.get('observacion')?.errors?.['required']">
+            <textarea matInput formControlName="observacion" placeholder="Ingrese la observacion"></textarea>
+            <mat-error *ngIf="form.get('observacion')?.hasError('required')">
               La observación es requerida
             </mat-error>
           </mat-form-field>
-        
-        <mat-progress-bar *ngIf="verificando" mode="indeterminate"></mat-progress-bar>
-        
-        <div *ngIf="errorVerificacion" class="error-message">
-            <!-- 0 -->
-            <span>No se pudo verificar la cédula completamente</span>
-        </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" 
-            [disabled]="form.get('cedula')?.invalid || (mostrarObservacion && form.get('observacion')?.invalid)">
+    <button mat-raised-button color="primary" type="submit" 
+            [disabled] = "form.invalid">
         Guardar
     </button>
 </mat-dialog-actions>

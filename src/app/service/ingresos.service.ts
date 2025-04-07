@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { enviroment } from '../../enviroments/dev.enviroment';
-import { IngresoPersonal } from '../interface/ingreso.interface';
+import { IngresoPersonal, RegistroRequest } from '../interface/ingreso.interface';
 import { ErrorIngreso } from '../interface/errores-ingreso.interface';
 import { SalidaPersonal } from '../interface/exit.interface';
 import { TotalPerson } from '../interface/attentends.interface';
@@ -105,7 +105,7 @@ export class DialogService {
             catchError(this.handleError)
         );
     }
-     registerIngreso(ingresar: IngresoPersonal): Observable<IngresoPersonal> {
+     registerIngreso(ingresar: RegistroRequest): Observable<IngresoPersonal> {
         return this.http.post<IngresoPersonal>(`${apiUrl}/register/ingreso`,
             ingresar, {
                 headers: new HttpHeaders({

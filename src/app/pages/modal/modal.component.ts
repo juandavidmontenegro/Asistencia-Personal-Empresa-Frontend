@@ -7,20 +7,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../service/ingresos.service';
-import { catchError, EMPTY, finalize } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, EMPTY, finalize, from } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { IngresoPersonal } from '../../interface/ingreso.interface';
+import { Asistencia, IngresoPersonal, RegistroRequest } from '../../interface/ingreso.interface';
 
 // Interfaz para el objeto de solicitud
-interface CedulaRequest {
-  cedula: number;
-}
+
 
 @Component({
   selector: 'app-registro-dialog',
   standalone: true,
   imports: [
-    CommonModule,
+  CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -33,8 +31,10 @@ interface CedulaRequest {
 export class RegistroDialogComponent implements OnInit {
   form!: FormGroup;
   mostrarObservacion = false;
-  verificando = false;
+  resulatadoIngreso ? :  IngresoPersonal;
   errorVerificacion = false;
+  verificando = false;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -45,117 +45,68 @@ export class RegistroDialogComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.setupCedulaChangesListener();
+    this.setupCedulaValidation();
+
+  }
+  private setupCedulaValidation(): void {
+    this.form.get('cedula')?.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(value => {
+      if (value && value.length >= 8) {
+        this.verificarCedula(value);
+      } else {
+        this.resetObservacion();
+      }
+    });
   }
 
   private initializeForm(): void {
     this.form = this.fb.group({
       cedula: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(8)]],
-      observacion: [{ value: null, disabled: true }]
+      observacion: [null]
     });
   }
-
-  private setupCedulaChangesListener(): void {
-    this.form.get('cedula')?.valueChanges.subscribe(value => {
-      if (value && value.length >= 8) {
-        this.verifyCedula(value);
-      } else {
-        this.resetObservacionField();
-      }
-    });
-  }
-
-  private verifyCedula(cedula: string): void {
-    this.verificando = true;
-    this.errorVerificacion = false;
-
-    const request: CedulaRequest = { cedula: Number(cedula) };
-
-    this.dialogservice.registerIngreso(request)
+  
+  onSubmit() {
+    if (this.form.invalid) {
+      this.showSnackBar('Por favor, complete todos los campos requeridos');
+      return;
+    }
+  
+    const cedulaValue = this.form.get('cedula')?.value;
+    const observacionValue = this.form.get('observacion')?.value;
+    const datosRegistro : RegistroRequest = {
+        cedula: Number(cedulaValue),
+        observacion: this.mostrarObservacion ? observacionValue : undefined,
+    };
+    this.dialogservice.registerIngreso(datosRegistro)
       .pipe(
-        finalize(() => this.verificando = false),
-        catchError(error => {
-          console.error('Error verificando cédula:', error);
+        catchError(err => {
+          console.error('Error al registrar:', err);
           this.errorVerificacion = true;
-          this.showSnackBar('Error al verificar la cédula. Se permitirá el registro.');
-          this.resetObservacionField();
+          this.showSnackBar(err.error?.message || 'Ocurrió un error al registrar el ingreso');
           return EMPTY;
         })
       )
       .subscribe({
-        next: (response: IngresoPersonal) => this.handleVerificationResponse(response),
-        error: () => this.handleVerificationError()
+        next: (response : IngresoPersonal) => {
+          this.resulatadoIngreso = response;
+          this.showSnackBar('Registro exitoso');
+          this.form.reset();
+          this.mostrarObservacion = false;
+          this.dialogRef.close(response);
+        },
+        error: (err) => {
+          this.errorVerificacion = true;
+          this.resulatadoIngreso = undefined;
+          this.showSnackBar(err.error?.message || 'Ocurrió un error al registrar el ingreso');
+        }
       });
   }
-
-  private handleVerificationResponse(response: IngresoPersonal): void {
-    if (response?.asistencia?.ultima_salida?.tipo_salida === 'cita medica') {
-      this.enableObservacionField('Esta cédula requiere observación por cita médica');
-    } else {
-      this.resetObservacionField();
-      
-      if (response?.message) {
-        this.showSnackBar(response.message);
-      }
-    }
-  }
-
-  private handleVerificationError(): void {
-    this.errorVerificacion = true;
-    this.resetObservacionField();
-    this.showSnackBar('Error al conectar con el servidor. Verifique su conexión.');
-  }
-
-  private enableObservacionField(message?: string): void {
-    this.mostrarObservacion = true;
-    const observacionControl = this.form.get('observacion');
-    
-    observacionControl?.enable();
-    observacionControl?.setValidators([Validators.required]);
-    observacionControl?.updateValueAndValidity();
-    
-    if (message) {
-      this.showSnackBar(message);
-    }
-  }
-
-  private resetObservacionField(): void {
-    this.mostrarObservacion = false;
-    const observacionControl = this.form.get('observacion');
-    
-    observacionControl?.disable();
-    observacionControl?.clearValidators();
-    observacionControl?.reset();
-    observacionControl?.updateValueAndValidity();
-  }
-
-  onSubmit(): void {
-    if (this.form.get('cedula')?.invalid) {
-      this.showSnackBar('Por favor, ingrese una cédula válida (mínimo 8 dígitos numéricos)');
-      return;
-    }
-
-    if (this.mostrarObservacion && this.form.get('observacion')?.invalid) {
-      this.showSnackBar('Por favor, ingrese la observación para la cita médica');
-      return;
-    }
-
-    this.closeDialogWithResult();
-  }
-
-  private closeDialogWithResult(): void {
-    const resultado = {
-      cedula: Number(this.form.get('cedula')?.value),
-      observacion: this.mostrarObservacion ? this.form.get('observacion')?.value : null,
-      errorVerificacion: this.errorVerificacion
-    };
-
-    this.dialogRef.close(resultado);
-  }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
+   onCancel(): void {
+     this.dialogRef.close();
+   }
 
   private showSnackBar(message: string): void {
     this.snackBar.open(message, 'Cerrar', {
@@ -163,5 +114,55 @@ export class RegistroDialogComponent implements OnInit {
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
+  }
+  private verificarCedula(cedula: number): void {
+    this.verificando = true;
+    this.errorVerificacion = false;
+
+    const datosVerificacion: RegistroRequest = {
+      cedula: Number(cedula),
+      observacion: this.mostrarObservacion ? this.form.get('observacion')?.value : null
+    };
+
+    this.dialogservice.registerIngreso(datosVerificacion)
+      .pipe(
+        finalize(() => this.verificando = false)
+      )
+      .subscribe({
+        next: (response: IngresoPersonal) => {
+          if (response?.asistencia?.ultima_salida?.tipo_salida === 'cita medica') {
+            this.habilitarObservacion();
+            this.showSnackBar('Esta cédula requiere observación por cita médica');
+          } else {
+            this.resetObservacion();
+          }
+        },
+        error: (error) => {
+          console.error('Error al verificar cédula:', error);
+          this.errorVerificacion = true;
+          this.resetObservacion();
+          this.showSnackBar('Error al verificar la cédula');
+        }
+      });
+  }
+  private habilitarObservacion(): void {
+    this.mostrarObservacion = true;
+    const observacionControl = this.form.get('observacion');
+    if (observacionControl) {
+      observacionControl.enable();
+      observacionControl.setValidators([Validators.required]);
+      observacionControl.updateValueAndValidity();
+    }
+  }
+
+  private resetObservacion(): void {
+    this.mostrarObservacion = false;
+    const observacionControl = this.form.get('observacion');
+    if (observacionControl) {
+      observacionControl.disable();
+      observacionControl.clearValidators();
+      observacionControl.setValue(null);
+      observacionControl.updateValueAndValidity();
+    }
   }
 }
