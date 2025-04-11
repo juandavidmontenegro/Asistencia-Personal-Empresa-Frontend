@@ -7,9 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '../../service/ingresos.service';
-import { catchError, debounceTime, distinctUntilChanged, EMPTY, finalize } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Asistencia, IngresoPersonal, RegistroRequest } from '../../interface/ingreso.interface';
+import { IngresoPersonal, RegistroRequest } from '../../interface/ingreso.interface';
 
 @Component({
   selector: 'app-registro-dialog',
@@ -90,7 +90,7 @@ export class RegistroDialogComponent implements OnInit {
         this.mostrarObservacion = true;
         this.requiereObservacion = true;
         this.manejarCampoObservacion();
-        this.showSnackBar('Por favor ingrese una observación detallada sobre la cita médica');
+        this.showSnackBar('Por favor ingrese una observación detallada');
     } else {
         this.mostrarObservacion = false;
         this.requiereObservacion = false;
@@ -121,8 +121,8 @@ export class RegistroDialogComponent implements OnInit {
                         this.manejarCampoObservacion();
                         this.showSnackBar('Por favor ingrese una observación detallada');
                     } else {
-                        this.mostrarObservacion = false;
-                        this.requiereObservacion = false;
+                        this.mostrarObservacion   = false;
+                        this.requiereObservacion  = false;
                         this.form.get('observacion')?.disable();
                         this.form.get('observacion')?.reset();
                         this.showSnackBar('Cédula verificada correctamente. Puede proceder a guardar.');
@@ -133,21 +133,19 @@ export class RegistroDialogComponent implements OnInit {
                 }
             },
             error: (error) => {
-                this.errorVerificacion = true;
-
+                this.errorVerificacion = false;
                 const errorMessage = error.message || 'Error al verificar la cédula';
                 console.error('Error:', error);
-
-                if (errorMessage.includes('ya tiene una entrada activa')) {
-                    this.mostrarObservacion = false;
-                    this.requiereObservacion = false;
-                } else {
-                    this.mostrarObservacion = true;
-                    this.requiereObservacion = true;
-                    this.manejarCampoObservacion();
-                }
-
-                this.showSnackBar(errorMessage);
+                 if (errorMessage.includes('ya tiene una entrada activa')) {
+                     this.mostrarObservacion = false;
+                     this.requiereObservacion = false;
+                 } else {
+                     this.mostrarObservacion = true;
+                     this.requiereObservacion = true;
+                     this.manejarCampoObservacion();
+                     this.showSnackBar(errorMessage);
+                 }
+                
             }
         });
 }
@@ -226,12 +224,6 @@ onSubmit(): void {
                 this.showSnackBar(response.message);
                 this.resetFormState();
                 this.form.reset();
-
-                //  if (this.requiereObservacion) {
-                //      this.dialogRef.close();
-                //  } else {
-                //      console.log('El diálogo permanece abierto porque no requiere observación.');
-                //  }
             },
             error: (error) => {
                 console.error('Error al guardar:', error);
