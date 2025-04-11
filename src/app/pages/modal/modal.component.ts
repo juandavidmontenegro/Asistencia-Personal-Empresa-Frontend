@@ -49,7 +49,7 @@ export class RegistroDialogComponent implements OnInit {
   private initializeForm(): void {
     this.form = this.fb.group({
       cedula: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(8)]],
-      observacion: [null]
+      observacion: ['']
     });
   }
 
@@ -77,90 +77,105 @@ export class RegistroDialogComponent implements OnInit {
 
   private verificarCedula(cedula: string): void {
     if (!cedula || cedula.length < 8) {
-      this.showSnackBar('La cédula debe tener al menos 8 dígitos');
-      return;
+        this.showSnackBar('La cédula debe tener al menos 8 dígitos');
+        return;
     }
 
     this.verificando = true;
     this.errorVerificacion = false;
 
     const cedulaData: RegistroRequest = {
-      cedula: cedula,
-      observacion: '',
+        cedula: cedula,
+        observacion: ''
     };
 
     this.dialogservice.registerIngreso(cedulaData)
-      .pipe(
-        finalize(() => this.verificando = false)
-      )
-      .subscribe({
-        next: (resultado) => {
-          if (resultado) {
-            this.resultadoIngreso = resultado;
-            this.verificarUltimaSalida(resultado);
-            
-            if (this.requiereObservacion) {
-              this.manejarCampoObservacion();
-            } else {
-              // Si no requiere observación, enviamos directamente
-              const result = {
-                ...resultado,
-                observacion: undefined,
-                tipo_salida: this.tipoSalida
-              };
-              this.dialogRef.close(result);
+        .pipe(
+            finalize(() => this.verificando = false)
+        )
+        .subscribe({
+            next: (resultado) => {
+                if (resultado) {
+                    this.resultadoIngreso = resultado;
+                    this.verificarUltimaSalida(resultado);
+
+                    if (this.requiereObservacion) {
+                        this.manejarCampoObservacion();
+                    } else {
+                        // Si no requiere observación, mostramos un mensaje de éxito y dejamos el diálogo abierto
+                        this.showSnackBar(resultado.message);
+                        console.log('Registro exitoso sin observación:', resultado);
+                    }
+                } else {
+                    this.errorVerificacion = true;
+                    this.showSnackBar('No se encontró registro con esta cédula');
+                }
+            },
+            error: (error) => {
+                this.errorVerificacion = true;
+                this.mostrarObservacion = true;
+                this.requiereObservacion = true;
+
+                const observacionControl = this.form.get('observacion');
+                observacionControl?.enable();
+                observacionControl?.setValidators([
+                    Validators.required,
+                    Validators.minLength(10),
+                    Validators.maxLength(500)
+                ]);
+                observacionControl?.updateValueAndValidity();
+
+                this.showSnackBar(error.message || 'Error al verificar la cédula');
+                console.error('Error:', error);
             }
-          } else {
-            this.errorVerificacion = true;
-            this.showSnackBar('No se encontró registro con esta cédula');
-          }
-        },
-        error: (error) => {
-          this.errorVerificacion = true;
-          this.mostrarObservacion = true;
-          this.requiereObservacion = true;
-          
-          const observacionControl = this.form.get('observacion');
-          observacionControl?.enable();
-          observacionControl?.setValidators([
-            Validators.required,
-            Validators.minLength(10),
-            Validators.maxLength(500)
-          ]);
-          observacionControl?.updateValueAndValidity();
-          
-          this.showSnackBar(error.message || 'Error al verificar la cédula');
-          console.error('Error:', error);
-        }
-      });
+        });
 }
 
 onSubmit(): void {
-    if (!this.form.valid) {
+  console.log('Estado del formulario:', this.form.value);
+  console.log('¿Formulario válido?:', this.form.valid);
+
+  if (!this.form.valid) {
       this.showSnackBar('Por favor complete todos los campos requeridos');
       return;
-    }
-    const observacion = this.form.get('observacion')?.value;
-    // Validación específica para observación cuando es requerida
-    
-    // Preparamos el objeto final
-    const datosFinal: RegistroRequest = {
-      cedula: this.form.get('cedula')?.value,
-      observacion: this.requiereObservacion ? observacion : null
-    };
+  }
 
-    // Enviamos los datos actualizados
-    this.dialogservice.registerIngreso(datosFinal)
+  const observacion = this.form.get('observacion')?.value;
+  console.log('Observación:', observacion);
+  console.log('¿Requiere observación?:', this.requiereObservacion);
+
+  // Validación específica para observación cuando es requerida
+  if (this.requiereObservacion && (!observacion || observacion.trim().length < 10)) {
+      this.showSnackBar('La observación debe tener al menos 10 caracteres');
+      return;
+  }
+
+  // Preparamos el objeto final
+  const datosFinal: RegistroRequest = {
+      cedula: this.form.get('cedula')?.value,
+      observacion: this.requiereObservacion ? observacion?.trim() : null
+  };
+
+  console.log('Datos a enviar:', datosFinal);
+
+  // Enviamos los datos actualizados
+  this.dialogservice.registerIngreso(datosFinal)
       .subscribe({
-        next: (response) => {
-          console.log('Registro guardado:', response);
-          this.showSnackBar(response.message);
-          this.dialogRef.close(response);
-        },
-        error: (error) => {
-          console.error('Error al guardar:', error);
-          this.showSnackBar('Error al guardar el registro');
-        }
+          next: (response) => {
+              console.log('Registro guardado:', response);
+              this.showSnackBar(response.message || 'Registro guardado exitosamente');
+
+              // Solo cerramos el diálogo si requiere observación
+              if (this.requiereObservacion) {
+                  this.dialogRef.close(response);
+              } else {
+                  console.log('El diálogo permanece abierto porque no requiere observación.');
+              }
+          },
+          error: (error) => {
+              console.error('Error al guardar:', error);
+              this.showSnackBar(error.message || 'Error al guardar el registro');
+          }
       });
 }
 
@@ -177,6 +192,7 @@ onSubmit(): void {
     // Verificar si la última salida fue por cita médica
     this.requiereObservacion = this.tipoSalida.toUpperCase() === 'CITA MEDICA';
     this.mostrarObservacion = this.requiereObservacion;
+    this.manejarCampoObservacion();
   }
 
   private manejarCampoObservacion(): void {

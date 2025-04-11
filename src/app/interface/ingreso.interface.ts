@@ -10,7 +10,7 @@ export interface Asistencia {
   fechaEntrada:   Date;
   horaEntrada:    string;
   estado:         string;
-  observacion:   string;
+  observacion?:   string;
   ultima_salida:  UltimaSalida;
 }
 

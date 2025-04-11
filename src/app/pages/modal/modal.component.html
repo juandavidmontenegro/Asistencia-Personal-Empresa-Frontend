@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Registro de Ingreso</h2>
 <mat-dialog-content>
-    <form [formGroup]="form"   (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" >
         <mat-form-field class="w-full">
             <mat-label>Cédula</mat-label>
             <input matInput formControlName="cedula" placeholder="Ingrese su cédula">
@@ -29,7 +29,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancelar</button>
-    <button mat-raised-button color="primary" type="submit" 
+    <button mat-raised-button color="primary" (click)="onSubmit()" 
             [disabled] = "form.invalid">
         Guardar
     </button>
