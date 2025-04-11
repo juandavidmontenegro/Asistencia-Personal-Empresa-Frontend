@@ -77,7 +77,7 @@ export class RegistroDialogComponent implements OnInit {
     const cedulaValue = this.form.get('cedula')?.value;
     const observacionValue = this.form.get('observacion')?.value;
     const datosRegistro : RegistroRequest = {
-        cedula: Number(cedulaValue),
+        cedula: cedulaValue,
         observacion: this.mostrarObservacion ? observacionValue : undefined,
     };
     this.dialogservice.registerIngreso(datosRegistro)
@@ -115,12 +115,12 @@ export class RegistroDialogComponent implements OnInit {
       verticalPosition: 'top',
     });
   }
-  private verificarCedula(cedula: number): void {
+  private verificarCedula(cedula: string): void {
     this.verificando = true;
     this.errorVerificacion = false;
 
     const datosVerificacion: RegistroRequest = {
-      cedula: Number(cedula),
+      cedula,
       observacion: this.mostrarObservacion ? this.form.get('observacion')?.value : null
     };
 
