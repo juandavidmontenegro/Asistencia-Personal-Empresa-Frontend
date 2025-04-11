@@ -21,5 +21,5 @@ export interface UltimaSalida {
 }
 export interface RegistroRequest{
   cedula:        string;
-  observacion?: string;
+  observacion ?: string | null;
 }

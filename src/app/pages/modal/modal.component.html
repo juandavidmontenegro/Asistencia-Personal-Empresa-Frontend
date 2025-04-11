@@ -16,13 +16,15 @@
         </mat-form-field>
     
         
-        <mat-form-field *ngIf="mostrarObservacion"  class="w-full">
-            <mat-label>Observación</mat-label>
-            <textarea matInput formControlName="observacion" placeholder="Ingrese la observacion"></textarea>
+        <mat-form-field *ngIf="mostrarObservacion" class="w-full">
+            <mat-label>Observación (requerida)</mat-label>
+            <textarea matInput formControlName="observacion" 
+                    placeholder="Ingrese la observación para la cita médica"
+                    required></textarea>
             <mat-error *ngIf="form.get('observacion')?.hasError('required')">
-              La observación es requerida
+                Se requiere una observación al regresar de cita médica
             </mat-error>
-          </mat-form-field>
+        </mat-form-field>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
