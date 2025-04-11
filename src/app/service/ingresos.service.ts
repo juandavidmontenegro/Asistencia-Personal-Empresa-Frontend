@@ -105,7 +105,7 @@ export class DialogService {
             catchError(this.handleError)
         );
     }
-     registerIngreso(ingresar: RegistroRequest): Observable<IngresoPersonal> {
+     registerIngreso(ingresar: IngresoPersonal): Observable<IngresoPersonal> {
         return this.http.post<IngresoPersonal>(`${apiUrl}/register/ingreso`,
             ingresar, {
                 headers: new HttpHeaders({

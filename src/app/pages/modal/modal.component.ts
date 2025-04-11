@@ -44,7 +44,43 @@ export class RegistroDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.initializeForm();
+    this.setupCedulaValidation();
 
+  }
+  private setupCedulaValidation(): void {
+    this.form.get('cedula')?.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(cedula => {
+        if (cedula && this.form.get('cedula')?.valid) {
+          this.verificarCedula(cedula);
+        }
+      });
+  }
+  private verificarCedula(cedula: string): void {
+    this.verificando = true;
+    this.errorVerificacion = false;
+    
+    this.dialogservice.registerIngreso(cedula)
+      .pipe(
+        finalize(() => this.verificando = false),
+        catchError(error => {
+          this.errorVerificacion = true;
+          this.showSnackBar('Error al verificar la cédula');
+          return EMPTY;
+        })
+      )
+      .subscribe(resultado => {
+        this.resulatadoIngreso = resultado;
+        if (!resultado) {
+          this.errorVerificacion = true;
+          this.mostrarObservacion = true;
+          this.showSnackBar('No se encontró registro con esta cédula');
+        }
+      });
   }
  
 
