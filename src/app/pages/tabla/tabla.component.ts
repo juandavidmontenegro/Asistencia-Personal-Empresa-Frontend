@@ -41,43 +41,64 @@ export class TablaComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  loadUsers(): void {
-    this.loading = true;
-    this.dataService.getUsers(1, 100).subscribe({
-      next: (response) => {
-        const usuarios = response.usuarios.map(usuario => ({
+  // Primero, agregar una función auxiliar para manejar las fechas
+private formatearFecha(fecha: string | Date | null | undefined): string {
+  if (!fecha) return '';
+  return new Date(fecha).toLocaleDateString() || '';
+}
+
+loadUsers(): void {
+  this.loading = true;
+  this.dataService.getUsers(1, 100).subscribe({
+    next: (response) => {
+      const usuarios = response.usuarios.map(usuario => {
+        // Crear objeto base con valores por defecto
+        const usuarioMapped = {
           ...usuario,
-          fechaEntrada: usuario.ingreso[0].fechaEntrada,
-          horaEntrada: usuario.ingreso[0].horaEntrada ,
-          fechaSalida: usuario.salidas[0].fechaSalida,
-          horaSalida: usuario.salidas[0].horaSalida,
-          tipoSalida: usuario.salidas[0].tipo_de_salida,
-          fechaboleta : usuario.salidas[0].fechaboleta
-          
-        }));
-        // mostrar todos los registros de entrada y salida
-        usuarios.forEach(usuario => {
-          if (usuario.salidas.length > 1) {
-            usuario.salidas.slice(1).forEach((salida: Salida) => {
-              usuarios.push({
-                ...usuario,
-                fechaSalida: salida.fechaSalida,
-                horaSalida: salida.horaSalida,
-                tipoSalida: salida.tipo_de_salida,
-                fechaboleta : salida.fechaboleta
-              });
+          fechaEntrada: this.formatearFecha(usuario.ingreso?.[0]?.fechaEntrada),
+          horaEntrada: usuario.ingreso?.[0]?.horaEntrada || '',
+          fechaSalida: '',
+          horaSalida: '',
+          tipoSalida: '',
+          fechaboleta: ''
+        };
+
+        // Añadir información de salida solo si existe
+        if (usuario.salidas && usuario.salidas.length > 0) {
+          usuarioMapped.fechaSalida = this.formatearFecha(usuario.salidas[0].fechaSalida);
+          usuarioMapped.horaSalida = usuario.salidas[0].horaSalida || '';
+          usuarioMapped.tipoSalida = usuario.salidas[0].tipo_de_salida || '';
+          usuarioMapped.fechaboleta = this.formatearFecha(usuario.salidas[0].fechaboleta);
+        }
+
+        return usuarioMapped;
+      });
+
+      // Procesar salidas adicionales
+      const todosLosRegistros = [...usuarios];
+      usuarios.forEach(usuario => {
+        if (usuario.salidas?.length > 1) {
+          usuario.salidas.slice(1).forEach((salida: Salida) => {
+            todosLosRegistros.push({
+              ...usuario,
+              fechaSalida: this.formatearFecha(salida.fechaSalida),
+              horaSalida: salida.horaSalida || '',
+              tipoSalida: salida.tipo_de_salida || '',
+              fechaboleta: this.formatearFecha(salida.fechaboleta)
             });
-          }
-        });
-        this.dataSource.data = usuarios;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar usuarios:', error);
-        this.loading = false;
-      }
-    });
-  }
+          });
+        }
+      });
+
+      this.dataSource.data = todosLosRegistros;
+      this.loading = false;
+    },
+    error: (error) => {
+      console.error('Error al cargar usuarios:', error);
+      this.loading = false;
+    }
+  });
+}
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;

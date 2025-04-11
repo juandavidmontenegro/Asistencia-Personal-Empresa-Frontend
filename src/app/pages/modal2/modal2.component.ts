@@ -75,7 +75,7 @@ export class Modal2Component {
       });
       return;
     }
-    const cedulaValue = Number(this.form.get('cedula')?.value);
+    const cedulaValue = this.form.get('cedula')?.value;
     const tipoBoletaValue = this.form.get('boleta')?.value;
     const fechaValue = this.form.get('fechaboleta')?.value;
   

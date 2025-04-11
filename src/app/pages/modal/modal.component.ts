@@ -34,6 +34,7 @@ export class RegistroDialogComponent implements OnInit {
   resulatadoIngreso ? :  IngresoPersonal;
   errorVerificacion = false;
   verificando = false;
+  tipoSalida = '';
   
 
   constructor(
@@ -48,6 +49,15 @@ export class RegistroDialogComponent implements OnInit {
     this.setupCedulaValidation();
 
   }
+  onSubmit(): void {
+    if (this.form.valid) {
+      if (this.mostrarObservacion && !this.form.get('observacion')?.value) {
+        this.showSnackBar('Se requiere una observación para cita médica');
+        return;
+      }
+      this.dialogRef.close(this.resulatadoIngreso);
+    }
+  }
   private setupCedulaValidation(): void {
     this.form.get('cedula')?.valueChanges
       .pipe(
@@ -61,40 +71,64 @@ export class RegistroDialogComponent implements OnInit {
       });
   }
   private verificarCedula(cedula: string): void {
+    if (!cedula || cedula.length < 8) {
+        this.showSnackBar('La cédula debe tener al menos 8 dígitos');
+        return;
+    }
+
     this.verificando = true;
     this.errorVerificacion = false;
-    const cedulaData : RegistroRequest = {
-      cedula: cedula,
-      observacion: this.form.get('observacion')?.value || null
-    }
-    
+
+    const cedulaData: RegistroRequest = {
+        cedula: cedula.trim(),
+        observacion: '',
+        //this.form.get('observacion')?.value || ''
+    };
+
     this.dialogservice.registerIngreso(cedulaData)
-      .pipe(
-        finalize(() => this.verificando = false),
-        catchError(error => {
-          this.errorVerificacion = true;
-          this.showSnackBar('Error al verificar la cédula');
-          return EMPTY;
-        })
-      )
-      .subscribe(resultado => {
-        this.resulatadoIngreso = resultado;
-        if (!resultado) {
-          this.errorVerificacion = true;
-          this.mostrarObservacion = true;
-          this.showSnackBar('No se encontró registro con esta cédula');
-        }
-      });
-  }
+        .pipe(
+            finalize(() => this.verificando = false),
+            catchError(error => {
+                this.errorVerificacion = true;
+                this.showSnackBar('Error al verificar la cédula');
+                console.error('Error:', error);
+                return EMPTY;
+            })
+        )
+        .subscribe({
+            next: (resultado) => {
+                if (resultado) {
+                    this.resulatadoIngreso = resultado;
+                    // Verificar si es cita médica
+                    if (resultado.asistencia?.ultima_salida?.tipo_salida === 'CITA MEDICA') {
+                        this.mostrarObservacion = true;
+                        this.tipoSalida = 'CITA MEDICA';
+                        this.form.get('observacion')?.enable();
+                        this.form.get('observacion')?.setValue(resultado.asistencia?.observacion || '');
+                    } else {
+                        this.mostrarObservacion = false;
+                        this.tipoSalida = resultado.asistencia?.ultima_salida?.tipo_salida || '';
+                        this.dialogRef.close(resultado);
+                        this.form.get('observacion')?.disable();
+                    }
+                    // this.dialogRef.close(resultado);
+                } else {
+                    this.errorVerificacion = true;
+                    this.showSnackBar('No se encontró registro con esta cédula');
+                }
+            }
+        });
+}
+
  
 
-  private initializeForm(): void {
-    this.form = this.fb.group({
-      cedula: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(8)]],
-      observacion: [null]
-    });
-  }
-  
+private initializeForm(): void {
+  this.form = this.fb.group({
+    cedula: ['', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(8)]],
+    observacion: [{ value: '', disabled: !this.mostrarObservacion 
+    }]
+  });
+}
    onCancel(): void {
      this.dialogRef.close();
    }
