@@ -66,7 +66,7 @@ export class RegistroDialogComponent implements OnInit {
           this.verificarCedula(cedula);
         } else {
           this.resetFormState();
-          this.errorVerificacion = true;
+          this.errorVerificacion = false;
           console.log('Error: La cédula no es válida o está incompleta.');
           
         }
@@ -225,12 +225,13 @@ onSubmit(): void {
             next: (response) => {
                 console.log('Registro guardado:', response);
                 this.showSnackBar(response.message);
+                this.form.reset();
 
-                if (this.requiereObservacion) {
-                    this.dialogRef.close(response);
-                } else {
-                    console.log('El diálogo permanece abierto porque no requiere observación.');
-                }
+                //  if (this.requiereObservacion) {
+                //      this.dialogRef.close();
+                //  } else {
+                //      console.log('El diálogo permanece abierto porque no requiere observación.');
+                //  }
             },
             error: (error) => {
                 console.error('Error al guardar:', error);
