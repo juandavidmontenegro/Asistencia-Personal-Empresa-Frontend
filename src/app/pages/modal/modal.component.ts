@@ -63,8 +63,12 @@ export class RegistroDialogComponent implements OnInit {
   private verificarCedula(cedula: string): void {
     this.verificando = true;
     this.errorVerificacion = false;
+    const cedulaData : RegistroRequest = {
+      cedula: cedula,
+      observacion: this.form.get('observacion')?.value || null
+    }
     
-    this.dialogservice.registerIngreso(cedula)
+    this.dialogservice.registerIngreso(cedulaData)
       .pipe(
         finalize(() => this.verificando = false),
         catchError(error => {
