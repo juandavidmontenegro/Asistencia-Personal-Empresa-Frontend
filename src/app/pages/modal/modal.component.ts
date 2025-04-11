@@ -140,19 +140,13 @@ onSubmit(): void {
       this.showSnackBar('Por favor complete todos los campos requeridos');
       return;
     }
-
     const observacion = this.form.get('observacion')?.value;
-    
     // Validación específica para observación cuando es requerida
-    if (this.requiereObservacion && (!observacion || observacion.trim().length < 10)) {
-      this.showSnackBar('Debe ingresar una observación de al menos 10 caracteres');
-      return;
-    }
     
     // Preparamos el objeto final
     const datosFinal: RegistroRequest = {
       cedula: this.form.get('cedula')?.value,
-      observacion: this.requiereObservacion ? observacion : undefined
+      observacion: this.requiereObservacion ? observacion : null
     };
 
     // Enviamos los datos actualizados
@@ -160,6 +154,7 @@ onSubmit(): void {
       .subscribe({
         next: (response) => {
           console.log('Registro guardado:', response);
+          this.showSnackBar(response.message);
           this.dialogRef.close(response);
         },
         error: (error) => {
