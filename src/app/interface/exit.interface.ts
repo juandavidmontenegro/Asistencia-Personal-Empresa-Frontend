@@ -5,7 +5,7 @@ export interface SalidaPersonal {
 
 export interface Asistenciasalida {
     id:             string;
-    cedula:         number;
+    cedula:         string;
     tipo_de_salida: string;
     fechaSalida:    Date;
     horaSalida:     string;

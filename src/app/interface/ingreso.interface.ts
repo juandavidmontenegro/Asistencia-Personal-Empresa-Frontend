@@ -5,7 +5,7 @@ export interface IngresoPersonal {
 
 export interface Asistencia {
   id:             string;
-  cedula:         number;
+  cedula:         string;
   nombrecompleto: string;
   fechaEntrada:   Date;
   horaEntrada:    string;
@@ -20,6 +20,6 @@ export interface UltimaSalida {
   fecha_boleta:  null;
 }
 export interface RegistroRequest{
-  cedula : number;
+  cedula:        string;
   observacion?: string;
 }

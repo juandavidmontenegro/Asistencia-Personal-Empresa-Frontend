@@ -6,7 +6,7 @@ export interface EmpleadosRegistrados {
 
 export interface Empleado {
     id:             string;
-    cedula:         number;
+    cedula:         string;
     nombrecompleto: string;
     empresa:        string;
     cargo:          string;

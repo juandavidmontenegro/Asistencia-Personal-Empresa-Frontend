@@ -4,7 +4,7 @@ export interface RegisterPerson {
 }
 
 export interface Persona {
-    cedula:         number;
+    cedula:         string;
     nombrecompleto: string;
     empresa:        string;
     cargo:          string;

@@ -12,7 +12,7 @@ export interface Paginacion {
 
 export interface Usuario {
     id:             string;
-    cedula:         number;
+    cedula:         string;
     nombrecompleto: string;
     ingreso:        Ingreso[];
     salidas:        Salida[];
