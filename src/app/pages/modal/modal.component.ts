@@ -61,7 +61,7 @@ export class RegistroDialogComponent implements OnInit {
       )
       .subscribe(cedula => {
         if (cedula && this.form.get('cedula')?.valid) {
-          this.errorVerificacion = false;
+          this.errorVerificacion = true;
           this.resetFormState();
           this.verificarCedula(cedula);
         } else {
@@ -74,6 +74,7 @@ export class RegistroDialogComponent implements OnInit {
   }
 
   private resetFormState(): void {
+    
     this.mostrarObservacion = false;
     this.requiereObservacion = false;
     this.form.get('observacion')?.disable();
