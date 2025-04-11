@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
     const formData: RegisterPerson = {
       ...this.profileForm.value,
-      cedula: Number(this.profileForm.get('cedula')?.value), // Convertir a número si es necesario
+      cedula: this.profileForm.get('cedula')?.value , // Convertir a número si es necesario
       correo: this.profileForm.get('correo')?.value.toLowerCase() // Normaliza el correo a minúsculas
     };
 
