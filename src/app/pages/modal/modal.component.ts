@@ -67,8 +67,6 @@ export class RegistroDialogComponent implements OnInit {
         } else {
           this.resetFormState();
           this.errorVerificacion = false;
-          console.log('Error: La cédula no es válida o está incompleta.');
-          
         }
       });
   }
@@ -226,6 +224,7 @@ onSubmit(): void {
             next: (response) => {
                 console.log('Registro guardado:', response);
                 this.showSnackBar(response.message);
+                this.resetFormState();
                 this.form.reset();
 
                 //  if (this.requiereObservacion) {
