@@ -56,7 +56,7 @@ export class RegistroDialogComponent implements OnInit {
   private setupCedulaValidation(): void {
     this.form.get('cedula')?.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(100),
         distinctUntilChanged()
       )
       .subscribe(cedula => {
@@ -72,7 +72,7 @@ export class RegistroDialogComponent implements OnInit {
   }
 
   private resetFormState(): void {
-    
+
     this.mostrarObservacion = false;
     this.requiereObservacion = false;
     this.form.get('observacion')?.disable();
@@ -84,8 +84,8 @@ export class RegistroDialogComponent implements OnInit {
         this.showSnackBar('La cédula debe tener al menos 10 dígitos');
         return;
     }
-        if (observacion?.toLowerCase().includes('cita médica') || 
-        observacion?.toLowerCase().includes('compensatorio') || 
+        if (observacion?.toLowerCase().includes('cita médica') ||
+        observacion?.toLowerCase().includes('compensatorio') ||
         observacion?.toLowerCase().includes('dia no remunerado')) {
         this.mostrarObservacion = true;
         this.requiereObservacion = true;
@@ -145,7 +145,7 @@ export class RegistroDialogComponent implements OnInit {
                      this.manejarCampoObservacion();
                      this.showSnackBar(errorMessage);
                  }
-                
+
             }
         });
 }
@@ -231,7 +231,7 @@ onSubmit(): void {
             }
         });
 }
-  
+
 
   onCancel(): void {
     this.dialogRef.close();
