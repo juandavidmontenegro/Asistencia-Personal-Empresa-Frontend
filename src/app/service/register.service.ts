@@ -6,20 +6,20 @@ import { RegisterPerson } from '../interface/register.interface';
 import { enviroment } from '../../enviroments/dev.enviroment';
 
 
-const register = enviroment.UrlApi;  
+const register = enviroment.UrlApi;
 
 @Injectable({
     providedIn: 'root'
 })
 export class RegisterService {
- 
+
 
     constructor(private http: HttpClient) {}
 
-    
+
     registerPerson(person: RegisterPerson): Observable<RegisterPerson> {
         return this.http.post<RegisterPerson>(
-            `${register}/register/persona`,
+            `${register}/register-person/register`,
             person,
             {
                 headers: new HttpHeaders({
@@ -32,20 +32,24 @@ export class RegisterService {
     }
 
     private handleError(error: HttpErrorResponse) {
-        let errorMessage = 'Ha ocurrido un error en el registro';
+        let errorMessage = '';
 
         if (error.status === 401) {
             errorMessage = 'No está autorizado para realizar esta acción';
         } else if (error.status === 400) {
             errorMessage = error.error?.message || 'Solicitud incorrecta, revise los datos enviados';
+        } else if (error.status === 409) {
+            errorMessage = error.error?.message || 'Conflicto: El recurso ya existe';
         } else if (error.status === 500) {
             errorMessage = 'Error interno del servidor, intente más tarde';
+        } else if (error.error?.message) {
+            errorMessage = error.error.message;
         }
 
-        return throwError(() => new Error(errorMessage));
+        return throwError(() => error);
     }
 
 
-        
+
 
 }

@@ -7,8 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterService } from '../../service/register.service';
-import { RegisterPerson } from '../../interface/register.interface';
-import { finalize } from 'rxjs';
 import { Tabla2Component } from "../tabla2/tabla2.component";
 
 @Component({
@@ -55,26 +53,18 @@ export class RegisterComponent implements OnInit {
       this.showSnackBar('Por favor complete todos los campos correctamente');
       return;
     }
-
-    this.isLoading = true;
-    const formData: RegisterPerson = {
-      ...this.profileForm.value,
-      cedula: this.profileForm.get('cedula')?.value , // Convertir a número si es necesario
-      correo: this.profileForm.get('correo')?.value.toLowerCase() // Normaliza el correo a minúsculas
-    };
-
-    this.registerService.registerPerson(formData) // 🔹 Cambio de `registerperson` a `registerPerson`
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe({
-        next: () => {
-          this.showSnackBar('Registro exitoso');
-          this.profileForm.reset();
-        },
-        error: (error) => {
-          console.error('Error en el registro:', error);
-          this.showSnackBar(error.error?.message || 'Error al registrar usuario');
-        }
-      });
+    this.registerService.registerPerson(this.profileForm.value).subscribe({
+      next: (response) => {
+        this.showSnackBar(response.message);
+        this.profileForm.reset();
+      },
+      error: (error) => {
+        console.error('Error en el registro:', error);
+        // Capturar el mensaje específico del backend
+        const errorMessage = error.error?.message || error.message || 'Error desconocido en el registro';
+        this.showSnackBar(errorMessage);
+      }
+    });
   }
 
   private showSnackBar(message: string): void {
