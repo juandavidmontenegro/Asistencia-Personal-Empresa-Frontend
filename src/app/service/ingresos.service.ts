@@ -37,17 +37,17 @@ export class DialogService {
         });
         return dialogRef.afterClosed().pipe(
           switchMap(result => {
-            if (result && typeof result === 'object' && 'cedula' in result) { 
+            if (result && typeof result === 'object' && 'cedula' in result) {
               return this.registerIngreso(result).pipe(
                 map(apiResponse => {
-                  return apiResponse; 
+                  return apiResponse;
                 }),
                 catchError((error: ErrorIngreso) => {
                   const errorData: ErrorIngreso = {
                     message: error.message,
                     error: error.error,
                   };
-                  return of(errorData); 
+                  return of(errorData);
                 })
               );
             }
@@ -62,25 +62,25 @@ export class DialogService {
         });
         return dialogRef.afterClosed().pipe(
           switchMap(result => {
-      
-            if (result && typeof result === 'object' && 'cedula' in result) { 
+
+            if (result && typeof result === 'object' && 'cedula' in result) {
               return this.salidapersonal(result).pipe(
                 map(apiResponse => {
-                  return apiResponse; 
+                  return apiResponse;
                 }),
                 catchError((error: ErrorIngreso) => {
                   const errorData: ErrorIngreso = {
                     message: error.message,
                     error: error.error,
                   };
-                  return of(errorData); 
+                  return of(errorData);
                 })
               );
             }
             return of(null);
           })
         );
-     } 
+     }
     private handleError(error: HttpErrorResponse) {
         let errorMessage = 'Ha ocurrido un error en el registro';
 
@@ -140,7 +140,7 @@ export class DialogService {
 
     getTotales(){
       return this.realTimeService.startRealTimeUpdates(() => {
-        return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register/empleados`).pipe(
+        return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register-person/empleados`).pipe(
           catchError(error => {
             console.error('Error obteniendo totales:', error);
             throw error;
@@ -151,7 +151,7 @@ export class DialogService {
 
     obtenerEmpresa(){
       return this.realTimeService.startRealTimeUpdates(() => {
-        return this.http.get<Empresas>(`${apiUrl}/register/empresa`).pipe(
+        return this.http.get<Empresas>(`${apiUrl}/register-person/empresa`).pipe(
             catchError(error => {
               console.error('Error obteniendo el numero de empresa:', error);
               throw error;

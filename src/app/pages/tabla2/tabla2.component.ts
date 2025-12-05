@@ -54,16 +54,16 @@ export class Tabla2Component implements AfterViewInit  , OnInit{
         },
         error: (error) => {
           console.error('Error al cargar los empleados', error);
-        } 
+        }
       });
   }
 
   deleteEmpleado( registro : Empleado){
     console.log('Eliminando', registro);
   }
-EditEmpleado( registro : Empleado){
+  EditEmpleado( registro : Empleado){
   console.log('Editando', registro);
-}
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
