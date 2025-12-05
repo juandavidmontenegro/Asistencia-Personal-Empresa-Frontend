@@ -95,7 +95,7 @@ export class DialogService {
         return throwError(() => new Error(errorMessage));
     }
      salidapersonal(salida: SalidaPersonal): Observable<SalidaPersonal> {
-        return this.http.post<SalidaPersonal>(`${apiUrl}/register/salida`,
+        return this.http.post<SalidaPersonal>(`${apiUrl}/register-person/salida`,
             salida, {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ export class DialogService {
         );
     }
      registerIngreso(ingresar: RegistroRequest ): Observable<IngresoPersonal> {
-        return this.http.post<IngresoPersonal>(`${apiUrl}/register/ingreso`,
+        return this.http.post<IngresoPersonal>(`${apiUrl}/register-person/ingreso`,
             ingresar, {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json'
@@ -120,7 +120,7 @@ export class DialogService {
       const params = new HttpParams().set('page', page).set('limit', limit);
 
       return this.realTimeService.startRealTimeUpdates<TotalPerson>(() => {
-        return this.http.get<TotalPerson>(`${apiUrl}/register`, { params }).pipe(
+        return this.http.get<TotalPerson>(`${apiUrl}/register-person/tablas`, { params }).pipe(
           catchError(error => {
             console.error('Error obteniendo usuarios:', error);
             throw error;
