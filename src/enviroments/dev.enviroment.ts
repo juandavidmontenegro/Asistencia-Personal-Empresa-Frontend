@@ -1,4 +1,4 @@
 export  const enviroment = {
     production : false,
-    UrlApi: 'http://localhost:3000/api'
+    UrlApi: 'https://asistencias-personal-empresa-backend-1.onrender.com/api'
 }

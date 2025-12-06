@@ -14,19 +14,19 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule , 
-  MatPaginatorModule, MatSortModule, 
-    MatTableModule, MatInputModule, 
+  imports: [CommonModule, FormsModule ,
+  MatPaginatorModule, MatSortModule,
+    MatTableModule, MatInputModule,
     MatFormFieldModule , MatIconModule],
   templateUrl: './tabla.component.html',
 })
 export class TablaComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['cedula', 'Nombre Completo', 'Fecha Entrada', 'Hora Entrada',
-    'Fecha Salida', 'Hora Salida' , 'tipo de Salida' ,'fecha boleta', 'Acciones'];
+    'Fecha Salida', 'Hora Salida' , 'tipo de Salida' ,'fecha boleta'];
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>([]);
   loading = false;
-  
+
   constructor( private dataService : DialogService){
     this.dataSource = new MatTableDataSource<Usuario>([]);
   }
@@ -35,7 +35,7 @@ export class TablaComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.loadUsers();
   }
-  
+
   ngAfterViewInit(){
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -116,11 +116,11 @@ loadUsers(): void {
   deleteAttendence(usuario: Usuario) {
     console.log('Eliminando usuario:', usuario);
   }
-    
+
 }
 
 
-  
 
-  
+
+
 

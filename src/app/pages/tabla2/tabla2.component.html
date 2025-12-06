@@ -2,7 +2,7 @@
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
   </mat-form-field>
-  
+
   <div class="shadow-md overflow-x-auto">
     <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="cedula">
@@ -29,7 +29,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Jefe Inmediato</th>
         <td mat-cell *matCellDef="let row"> {{row.jefeInmediato}} </td>
       </ng-container>
-      <ng-container matColumnDef="Acciones">
+      <!-- <ng-container matColumnDef="Acciones">
         <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let row">
           <button mat-icon-button class="hover:bg-yellow-400 rounded-md m-4 p-1" (click)="EditEmpleado(row)">
@@ -39,16 +39,16 @@
             <mat-icon>delete</mat-icon>
           </button>
         </td>
-      </ng-container>
-  
+      </ng-container> -->
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">no hay datos para filtrar "{{input.value}}"</td>
       </tr>
     </table>
-  
+
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
-  
-  
+
+

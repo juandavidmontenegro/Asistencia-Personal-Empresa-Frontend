@@ -20,7 +20,7 @@ export class Tabla2Component implements AfterViewInit  , OnInit{
     this.loadEmpleado();
   }
 
-  displayedColumns: string[] = ['cedula', 'nombrecompleto', 'empresa', 'cargo', 'correo', 'jefeInmediato' , 'Acciones'];
+  displayedColumns: string[] = ['cedula', 'nombrecompleto', 'empresa', 'cargo', 'correo', 'jefeInmediato'];
   dataSource: MatTableDataSource<Empleado> = new MatTableDataSource<Empleado>([]);
 
   constructor( private readonly empleadosService : DialogService) {
