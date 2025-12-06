@@ -120,7 +120,7 @@ export class DialogService {
       const params = new HttpParams().set('page', page).set('limit', limit);
 
       return this.realTimeService.startRealTimeUpdates<TotalPerson>(() => {
-        return this.http.get<TotalPerson>(`${apiUrl}/register-person/tablas`, { params }).pipe(
+        return this.http.get<TotalPerson>(`${apiUrl}/register-person/tablas-asistencias`, { params }).pipe(
           catchError(error => {
             console.error('Error obteniendo usuarios:', error);
             throw error;
@@ -140,7 +140,7 @@ export class DialogService {
 
     getTotales(){
       return this.realTimeService.startRealTimeUpdates(() => {
-        return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register-person/empleados`).pipe(
+        return this.http.get<EmpleadosRegistrados>(`${apiUrl}/register-person/tablas-empleados`).pipe(
           catchError(error => {
             console.error('Error obteniendo totales:', error);
             throw error;
