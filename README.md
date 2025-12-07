@@ -25,13 +25,12 @@ Aplicación frontend desarrollada en Angular que permite gestionar el registro d
 ## 🛠️ Tecnologías Utilizadas
 
 - **Framework:** Angular 18.2.0
-- **Lenguaje:** TypeScript 5.5.2
+- **Lenguaje:** TypeScript
 - **UI Components:** Angular Material 18.2.14
 - **Estilos:** TailwindCSS 3.4.17, SCSS
 - **Estado:** RxJS 7.8.0
 - **HTTP Client:** Angular HttpClient
 - **Testing:** Jasmine & Karma
-- **Build:** Angular CLI 18.2.14
 
 ##  Instalación
 
@@ -125,7 +124,7 @@ El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 - Registro de entrada/salida
 - Reloj en tiempo real
 - Historial de registros
-### 👥 Gestión de Empleados
+### Gestión de Empleados
 - Registro de empleados
 ## 🔧 Configuración
 
