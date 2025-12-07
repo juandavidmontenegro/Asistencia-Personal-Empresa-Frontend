@@ -35,7 +35,7 @@ Aplicación frontend desarrollada en Angular que permite gestionar el registro d
 
 ##  Instalación
 
-### Prerrequisitos
+### Requisitos del sistema local
 
 - Node.js (versión 18 o superior)
 - npm o yarn
@@ -165,6 +165,7 @@ El frontend se conecta con el backend a través de:
 
 **Juan David Montenegro**
 - GitHub: [@juandavidmontenegro](https://github.com/juandavidmontenegro)
+-Correo:  [davidmontenegro-b@hotmail.com]
 
 
 **¡Si te gusta el proyecto, dale una estrella!**
