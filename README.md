@@ -165,7 +165,7 @@ El frontend se conecta con el backend a través de:
 
 **Juan David Montenegro**
 - GitHub: [@juandavidmontenegro](https://github.com/juandavidmontenegro)
--Correo:  [davidmontenegro-b@hotmail.com]
+- Correo:  [davidmontenegro-b@hotmail.com]
 
 
 **¡Si te gusta el proyecto, dale una estrella!**
