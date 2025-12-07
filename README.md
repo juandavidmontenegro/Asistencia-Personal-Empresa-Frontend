@@ -119,7 +119,7 @@ El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 ## Funcionalidades Principales
 
 ###  Dashboard
-- Conteo de Asistencias de empleados por empresas
+- Conteo de Asistencias de empleados por empresas y visitantes a la empresa
 
 ###  Control de Asistencias
 - Registro de entrada/salida
