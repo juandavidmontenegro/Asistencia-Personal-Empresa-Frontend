@@ -1,31 +1,216 @@
-# Asistencias de personal 
+# 📋 Sistema de Asistencias de Personal - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.14.
+Sistema web para el control y gestión de asistencias del personal de empresa, desarrollado con Angular 18.
 
-## Development server lccal
+![Angular](https://img.shields.io/badge/Angular-18.2.0-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5.2-blue)
+![Material Design](https://img.shields.io/badge/Angular%20Material-18.2.14-purple)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.17-cyan)
 
-### instalcion
+## 📖 Descripción
 
+Aplicación frontend desarrollada en Angular que permite gestionar el registro de entrada y salida del personal de la empresa. El sistema incluye autenticación de usuarios, registro de asistencias en tiempo real, visualización de reportes y administración de empleados.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## ✨ Características
 
-## Code scaffolding
+- 🔐 **Sistema de autenticación** con JWT
+- 👥 **Gestión de usuarios** y roles
+- ⏰ **Registro de asistencias** en tiempo real
+- 📊 **Dashboard** con estadísticas
+- 📋 **Reportes de asistencias**
+- 🕒 **Reloj digital** integrado
+- 📱 **Diseño responsivo**
+- 🎨 **Material Design** con TailwindCSS
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 🛠️ Tecnologías Utilizadas
 
-## Build
+- **Framework:** Angular 18.2.0
+- **Lenguaje:** TypeScript 5.5.2
+- **UI Components:** Angular Material 18.2.14
+- **Estilos:** TailwindCSS 3.4.17, SCSS
+- **Estado:** RxJS 7.8.0
+- **HTTP Client:** Angular HttpClient
+- **Testing:** Jasmine & Karma
+- **Build:** Angular CLI 18.2.14
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 📦 Instalación
 
-## Running unit tests
+### Prerrequisitos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Node.js (versión 18 o superior)
+- npm o yarn
+- Angular CLI 18.2.14
 
-## Running end-to-end tests
+### Pasos de instalación
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Clonar el repositorio**
+```bash
+git clone https://github.com/juandavidmontenegro/Asistencia-Personal-Empresa-Frontend.git
+cd Asistencia-Personal-Empresa-Frontend
+```
 
-## Further help
+2. **Instalar dependencias**
+```bash
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-# asistencia-frontend
+3. **Configurar variables de entorno**
+Editar el archivo `src/environments/dev.environment.ts`:
+```typescript
+export const environment = {
+  production: false,
+  UrlApi: 'https://tu-backend-url.com/api'
+};
+```
+
+4. **Ejecutar la aplicación**
+```bash
+npm start
+```
+
+La aplicación estará disponible en `http://localhost:4200/`
+
+## 🚀 Scripts Disponibles
+
+```bash
+# Iniciar servidor de desarrollo
+npm start
+
+# Construir para producción
+npm run build
+
+# Ejecutar tests
+npm test
+
+# Construir en modo watch
+npm run watch
+
+# Comandos Angular CLI
+npm run ng
+```
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── auth/                    # Módulo de autenticación
+│   │   ├── auth-interceptor/    # Interceptores HTTP
+│   │   ├── auth-interface/      # Interfaces de auth
+│   │   ├── auth-services/       # Servicios de autenticación
+│   │   ├── guard/              # Guards de rutas
+│   │   └── layout/             # Layout de auth
+│   ├── interface/              # Interfaces globales
+│   ├── pages/                  # Páginas principales
+│   │   ├── asistencia/         # Gestión de asistencias
+│   │   ├── dashboard/          # Panel principal
+│   │   ├── home/              # Página de inicio
+│   │   ├── login/             # Página de login
+│   │   ├── register/          # Registro de usuarios
+│   │   ├── tabla/             # Tablas de datos
+│   │   ├── modal/             # Componentes modales
+│   │   ├── nav/               # Navegación
+│   │   └── hora-fecha/        # Componentes de tiempo
+│   ├── service/               # Servicios globales
+│   └── environments/          # Variables de entorno
+├── public/                    # Archivos públicos
+└── styles/                    # Estilos globales
+```
+
+## 🔐 Autenticación
+
+El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
+
+- **Login:** `/auth/login`
+- **Guards:** Protección de rutas según roles
+- **Interceptores:** Manejo automático de tokens
+- **Refresh Token:** Renovación automática de sesiones
+
+## 📱 Funcionalidades Principales
+
+### 🏠 Dashboard
+- Estadísticas generales de asistencias
+- Resumen de empleados activos
+- Gráficos de productividad
+
+### ⏰ Control de Asistencias
+- Registro de entrada/salida
+- Reloj en tiempo real
+- Historial de registros
+
+### 👥 Gestión de Empleados
+- CRUD completo de empleados
+- Asignación de roles
+- Estados de empleados
+
+### 📊 Reportes
+- Reportes por fechas
+- Exportación de datos
+- Filtros avanzados
+
+## 🔧 Configuración
+
+### Environment Variables
+```typescript
+// src/environments/dev.environment.ts
+export const environment = {
+  production: false,
+  UrlApi: 'https://asistencias-personal-empresa-backend-1.onrender.com/api'
+};
+```
+
+### Angular Material Theme
+El proyecto utiliza un tema personalizado configurado en `src/themem3-theme.scss`
+
+### TailwindCSS
+Configuración personalizada en `tailwind.config.js` para componentes específicos.
+
+## 🚧 Build y Despliegue
+
+### Build de Producción
+```bash
+npm run build
+```
+
+Los archivos se generan en la carpeta `dist/`
+
+### Configuración de Build
+- **Output:** `dist/front-end-raul-perez-mesa/`
+- **Budgets:** 500kB warning, 1MB error
+- **Assets:** Copiados desde `public/`
+
+## 🤝 API Integration
+
+El frontend se conecta con el backend a través de:
+
+- **Base URL:** Configurada en environment
+- **Interceptores:** Manejo de tokens y errores
+- **Servicios:** Abstracción de llamadas HTTP
+- **Interfaces:** Tipado estricto de datos
+
+## 👥 Contribución
+
+1. Fork del proyecto
+2. Crear rama feature (`git checkout -b feature/AmazingFeature`)
+3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 👨‍💻 Autor
+
+**Juan David Montenegro**
+- GitHub: [@juandavidmontenegro](https://github.com/juandavidmontenegro)
+
+## 📞 Soporte
+
+Para soporte o consultas:
+- 📧 Email: [contacto](mailto:tu-email@ejemplo.com)
+- 🐛 Issues: [GitHub Issues](https://github.com/juandavidmontenegro/Asistencia-Personal-Empresa-Frontend/issues)
+
+---
+
+⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
