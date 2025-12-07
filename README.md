@@ -71,6 +71,13 @@ ng s --open
 La aplicación estará disponible en `http://localhost:4200/`
 
 ## Ingresar al sistemas de Asistencias
+### login Credenciales
+```bash
+davidmontenegro-b@hotmail.com
+```
+```bash
+Pasw12.$
+```
 
 ## Estructura del Proyecto
 
@@ -126,7 +133,7 @@ El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 ```typescript
 // src/environments/dev.environment.ts
 export const environment = {
-  production: false,
+  production: true,
   UrlApi: 'https://asistencias-personal-empresa-backend-1.onrender.com/api'
 };
 ```
@@ -136,29 +143,6 @@ El proyecto utiliza un tema personalizado configurado en `src/themem3-theme.scss
 
 ### TailwindCSS
 Configuración personalizada en `tailwind.config.js` para componentes específicos.
-
-##  Build y Despliegue
-
-### Build de Producción
-```bash
-npm run build
-```
-
-Los archivos se generan en la carpeta `dist/`
-
-### Configuración de Build
-- **Output:** `dist/front-end-raul-perez-mesa/`
-- **Budgets:** 500kB warning, 1MB error
-- **Assets:** Copiados desde `public/`
-
-## API Integration
-
-El frontend se conecta con el backend a través de:
-
-- **Base URL:** Configurada en environment
-- **Interceptores:** Manejo de tokens y errores
-- **Servicios:** Abstracción de llamadas HTTP
-- **Interfaces:** Tipado estricto de datos
 
 
 ## Autor
