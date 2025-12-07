@@ -70,26 +70,9 @@ ng s --open
 
 La aplicación estará disponible en `http://localhost:4200/`
 
-## 🚀 Scripts Disponibles
+## Ingresar al sistemas de Asistencias
 
-```bash
-# Iniciar servidor de desarrollo
-npm start
-
-# Construir para producción
-npm run build
-
-# Ejecutar tests
-npm test
-
-# Construir en modo watch
-npm run watch
-
-# Comandos Angular CLI
-npm run ng
-```
-
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 src/
@@ -117,7 +100,7 @@ src/
 └── styles/                    # Estilos globales
 ```
 
-## 🔐 Autenticación
+##  Autenticación
 
 El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 
@@ -126,12 +109,12 @@ El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 - **Interceptores:** Manejo automático de tokens
 - **Refresh Token:** Renovación automática de sesiones
 
-## 📱 Funcionalidades Principales
+## Funcionalidades Principales
 
-### 🏠 Dashboard
+###  Dashboard
 - Conteo de Asistencias de empleados por empresas
 
-### ⏰ Control de Asistencias
+###  Control de Asistencias
 - Registro de entrada/salida
 - Reloj en tiempo real
 - Historial de registros
@@ -154,7 +137,7 @@ El proyecto utiliza un tema personalizado configurado en `src/themem3-theme.scss
 ### TailwindCSS
 Configuración personalizada en `tailwind.config.js` para componentes específicos.
 
-## 🚧 Build y Despliegue
+##  Build y Despliegue
 
 ### Build de Producción
 ```bash
@@ -168,7 +151,7 @@ Los archivos se generan en la carpeta `dist/`
 - **Budgets:** 500kB warning, 1MB error
 - **Assets:** Copiados desde `public/`
 
-## 🤝 API Integration
+## API Integration
 
 El frontend se conecta con el backend a través de:
 
@@ -177,29 +160,11 @@ El frontend se conecta con el backend a través de:
 - **Servicios:** Abstracción de llamadas HTTP
 - **Interfaces:** Tipado estricto de datos
 
-## 👥 Contribución
 
-1. Fork del proyecto
-2. Crear rama feature (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 👨‍💻 Autor
+## Autor
 
 **Juan David Montenegro**
 - GitHub: [@juandavidmontenegro](https://github.com/juandavidmontenegro)
 
-## 📞 Soporte
 
-Para soporte o consultas:
-- 📧 Email: [contacto](mailto:tu-email@ejemplo.com)
-- 🐛 Issues: [GitHub Issues](https://github.com/juandavidmontenegro/Asistencia-Personal-Empresa-Frontend/issues)
-
----
-
-⭐ **¡Si te gusta el proyecto, dale una estrella!** ⭐
+**¡Si te gusta el proyecto, dale una estrella!**
