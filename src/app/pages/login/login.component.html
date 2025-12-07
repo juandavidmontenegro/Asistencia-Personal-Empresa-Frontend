@@ -1,12 +1,12 @@
-<form [formGroup]="loginForm" 
+<form [formGroup]="loginForm"
       (ngSubmit)="onSubmit()"
       class="flex flex-col justify-center items-center gap-2 border-gray-200 p-4 rounded-lg">
-   
+
    <mat-form-field class="w-full">
     <mat-label>Email</mat-label>
-    <input matInput 
+    <input matInput
            formControlName="email"
-           placeholder="nombre@induaceitera.com"
+           placeholder="nombre@correo.com"
            type="email">
     <mat-error *ngIf="emailField?.errors?.['required']">
       El email es requerido
@@ -18,9 +18,9 @@
 
   <mat-form-field class="w-full">
     <mat-label>Contraseña</mat-label>
-    <input matInput 
+    <input matInput
            formControlName="password"
-           type="password" 
+           type="password"
            placeholder="Contraseña">
     <mat-error *ngIf="passwordField?.errors?.['required']">
       La contraseña es requerida
@@ -32,8 +32,8 @@
 
   <!-- Mensaje de error general -->
 
-  <button mat-stroked-button  
-          class="w-full" 
+  <button mat-stroked-button
+          class="w-full"
           type="submit"
           [disabled]="loginForm.invalid || isLoading()">
     <span *ngIf="!isLoading()">Ingresar</span>
