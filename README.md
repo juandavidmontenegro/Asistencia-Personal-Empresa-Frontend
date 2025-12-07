@@ -1,4 +1,4 @@
-# 📋 Sistema de Asistencias de Personal - Frontend
+# Sistema de Asistencias de Personal - Frontend
 
 Sistema web para el control y gestión de asistencias del personal de empresa, desarrollado con Angular 18.
 
@@ -7,20 +7,20 @@ Sistema web para el control y gestión de asistencias del personal de empresa, d
 ![Material Design](https://img.shields.io/badge/Angular%20Material-18.2.14-purple)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.17-cyan)
 
-## 📖 Descripción
+##  Descripción del proyecto
 
 Aplicación frontend desarrollada en Angular que permite gestionar el registro de entrada y salida del personal de la empresa. El sistema incluye autenticación de usuarios, registro de asistencias en tiempo real, visualización de reportes y administración de empleados.
 
-## ✨ Características
+##  Características
 
-- 🔐 **Sistema de autenticación** con JWT
-- 👥 **Gestión de usuarios** y roles
-- ⏰ **Registro de asistencias** en tiempo real
-- 📊 **Dashboard** con estadísticas
-- 📋 **Reportes de asistencias**
-- 🕒 **Reloj digital** integrado
-- 📱 **Diseño responsivo**
-- 🎨 **Material Design** con TailwindCSS
+-  **Sistema de autenticación** con JWT
+-  **Gestión de usuarios** y roles
+-  **Registro de asistencias** en tiempo real
+-  **Dashboard** con estadísticas
+-  **Reportes de asistencias**
+-  **Reloj digital** integrado
+-  **Diseño responsivo**
+-  **Material Design** con TailwindCSS
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -33,7 +33,7 @@ Aplicación frontend desarrollada en Angular que permite gestionar el registro d
 - **Testing:** Jasmine & Karma
 - **Build:** Angular CLI 18.2.14
 
-## 📦 Instalación
+##  Instalación
 
 ### Prerrequisitos
 
@@ -59,13 +59,13 @@ Editar el archivo `src/environments/dev.environment.ts`:
 ```typescript
 export const environment = {
   production: false,
-  UrlApi: 'https://tu-backend-url.com/api'
+  UrlApi: 'https://asistencias-personal-empresa-backend-1.onrender.com/api'
 };
 ```
 
 4. **Ejecutar la aplicación**
 ```bash
-npm start
+ng s --open
 ```
 
 La aplicación estará disponible en `http://localhost:4200/`
@@ -129,25 +129,14 @@ El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
 ## 📱 Funcionalidades Principales
 
 ### 🏠 Dashboard
-- Estadísticas generales de asistencias
-- Resumen de empleados activos
-- Gráficos de productividad
+- Conteo de Asistencias de empleados por empresas
 
 ### ⏰ Control de Asistencias
 - Registro de entrada/salida
 - Reloj en tiempo real
 - Historial de registros
-
 ### 👥 Gestión de Empleados
-- CRUD completo de empleados
-- Asignación de roles
-- Estados de empleados
-
-### 📊 Reportes
-- Reportes por fechas
-- Exportación de datos
-- Filtros avanzados
-
+- Registro de empleados
 ## 🔧 Configuración
 
 ### Environment Variables
